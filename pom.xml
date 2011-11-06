@@ -1,0 +1,164 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>be.ockerman.roborally</groupId>
+	<artifactId>jroborally</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>JRoborally</name>
+
+
+	<!-- interesting links about maven an natives and profiles: http://lwjgl.org/forum/index.php?topic=3305.0 
+		http://lwjgl.org/forum/index.php?topic=2955.0 http://code.google.com/p/mavennatives/ -->
+	<repositories>
+		<repository>
+			<id>slick</id>
+			<url>http://slick.cokeandcode.com/mavenrepo</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<id>mavenNatives</id>
+			<name>Maven Natives Repository</name>
+			<url>http://mavennatives.googlecode.com/svn/repo/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.xmlbeans</groupId>
+			<artifactId>xmlbeans</artifactId>
+			<version>2.4.0</version>
+		</dependency>
+
+		<!-- locally installed from a downloaded lwjgl 2.5 using: mvn install:install-file 
+			-Dfile=jar/lwjgl.jar -Dsources=lwjgl-source-2.5.zip -DgroupId=lwjgl -DartifactId=lwjgl 
+			-Dversion=2.5.0 -Dpackaging=jar -->
+		<dependency>
+			<groupId>lwjgl</groupId>
+			<artifactId>lwjgl</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+		<!-- locally installed from a downloaded lwjgl 2.5 first a l-lb/lwjgl-2.5.0-natives-linux.jar 
+			is make by "compressing" a portion of the ./native/linux files. then install 
+			to local repo using: mvn install:install-file -Dfile=lib/lwjgl-2.5.0-natives-linux.jar 
+			-DgroupId=lwjgl -DartifactId=lwjgl -Dversion=2.5.0 -Dclassifier=natives-linux 
+			-Dpackaging=jar -->
+		<dependency>
+			<groupId>lwjgl</groupId>
+			<artifactId>lwjgl</artifactId>
+			<version>2.5.0</version>
+			<classifier>natives-linux</classifier>
+		</dependency>
+
+		<!-- locally installed from a downloaded lwjgl 2.5 using: mvn install:install-file 
+			-Dfile=jar/lwjgl_util.jar -Dsources=lwjgl-source-2.5.zip -DgroupId=lwjgl 
+			-DartifactId=lwjgl-util -Dversion=2.5.0 -Dpackaging=jar -->
+
+		<dependency>
+			<groupId>lwjgl</groupId>
+			<artifactId>lwjgl-util</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+
+
+		<!-- slick is used to load textures and sound (instead of DevIL) -->
+		<dependency>
+			<groupId>slick</groupId>
+			<artifactId>slick</artifactId>
+			<version>274</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.lwjgl</groupId>
+					<artifactId>lwjgl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.lwjgl</groupId>
+					<artifactId>lwjgl-jinput</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.lwjgl</groupId>
+					<artifactId>lwjgl-native</artifactId>
+				</exclusion>
+
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.googlecode.mavennatives</groupId>
+				<artifactId>maven-nativedependencies-plugin</artifactId>
+				<version>0.0.2</version>
+				<executions>
+					<execution>
+						<id>unpacknatives</id>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>xmlbeans-maven-plugin</artifactId>
+				<version>2.3.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>xmlbeans</goal>
+						</goals>
+					</execution>
+				</executions>
+				<inherited>true</inherited>
+				<configuration>
+					<schemaDirectory>src/main/resources/xsd</schemaDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>java</executable>
+					<arguments>
+						<argument>-Djava.library.path=./target/natives</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>be.ockerman.roborally.JRoborally</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

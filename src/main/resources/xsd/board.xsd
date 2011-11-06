@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ockerman.be/roborally"
+            xmlns="http://www.ockerman.be/roborally" elementFormDefault="qualified">
+            
+    <xsd:element name="board" type="board"></xsd:element>
+    
+    <xsd:complexType name="board">
+    	<xsd:sequence>
+    		<xsd:element name="tiles" type="tileDescriptorPhraseType" maxOccurs="1" minOccurs="1" ></xsd:element>
+    	</xsd:sequence>
+    	<xsd:attribute name="sizex" type="xsd:int"></xsd:attribute>
+    	<xsd:attribute name="sizey" type="xsd:int"></xsd:attribute>
+    </xsd:complexType>
+
+
+
+    <xsd:complexType name="tileBase">
+    	<xsd:attribute name="orientation" type="orientationType" use="optional" default="random"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="tileDescriptorPhraseType">
+    	<xsd:sequence>
+    		<xsd:choice minOccurs="0" maxOccurs="unbounded" >
+    			<xsd:element name="at" type="positionTilePhrase"></xsd:element>
+    			<xsd:element name="range" type="areaTilePhrase"></xsd:element>
+    		</xsd:choice>
+    	</xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="positionTilePhrase">
+        <xsd:sequence>
+	        <xsd:choice minOccurs="1" maxOccurs="1" >
+                <xsd:element name="belt" type="beltTile"></xsd:element>
+                <xsd:element name="fastbelt" type="fastbeltTile"></xsd:element>
+                <xsd:element name="hole" type="holeTile"></xsd:element>
+                <xsd:element name="leftgear" type="leftgearTile"></xsd:element>
+                <xsd:element name="rightgear" type="rightgearTile"></xsd:element>
+                <xsd:element name="repair" type="repairTile"></xsd:element>
+                <xsd:element name="double-repair" type="doubleRepairTile"></xsd:element>
+            </xsd:choice>
+         </xsd:sequence>
+        <xsd:attribute name="x" type="xsd:int" use="required"/>
+        <xsd:attribute name="y" type="xsd:int" use="required"/>
+    </xsd:complexType>
+    
+    <xsd:complexType name="areaTilePhrase">
+        <xsd:sequence>
+            <xsd:choice minOccurs="1" maxOccurs="1" >
+                <xsd:element name="belt" type="beltTile"></xsd:element>
+                <xsd:element name="fastbelt" type="fastbeltTile"></xsd:element>
+                <xsd:element name="hole" type="holeTile"></xsd:element>
+                <xsd:element name="leftgear" type="leftgearTile"></xsd:element>
+                <xsd:element name="rightgear" type="rightgearTile"></xsd:element>
+            </xsd:choice>
+         </xsd:sequence>
+         <xsd:attribute name="from-x" type="xsd:int" use="required"/>
+         <xsd:attribute name="from-y" type="xsd:int" use="required"/>
+         <xsd:attribute name="to-x" type="xsd:int" use="required"/>
+         <xsd:attribute name="to-y" type="xsd:int" use="required"/>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="beltTile">
+        <xsd:complexContent>
+            <xsd:extension base="tileBase"></xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="fastbeltTile">
+    	<xsd:complexContent>
+    		<xsd:extension base="tileBase"></xsd:extension>
+    	</xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="holeTile"></xsd:complexType>
+
+    <xsd:complexType name="leftgearTile">
+    </xsd:complexType>
+
+    <xsd:complexType name="rightgearTile"></xsd:complexType>
+    
+    <xsd:complexType name="repairTile">
+        <xsd:complexContent>
+            <xsd:extension base="tileBase"></xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="doubleRepairTile">
+        <xsd:complexContent>
+            <xsd:extension base="tileBase"></xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+
+    <xsd:simpleType name="orientationType">
+    	<xsd:restriction base="xsd:string">
+    		<xsd:enumeration value="left"></xsd:enumeration>
+    		<xsd:enumeration value="right"></xsd:enumeration>
+    		<xsd:enumeration value="up"></xsd:enumeration>
+    		<xsd:enumeration value="down"></xsd:enumeration>
+    		<xsd:enumeration value="random"></xsd:enumeration>
+    	</xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>
