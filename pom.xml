@@ -10,14 +10,21 @@
 
 	<!-- interesting links about maven an natives and profiles: http://lwjgl.org/forum/index.php?topic=3305.0 
 		http://lwjgl.org/forum/index.php?topic=2955.0 http://code.google.com/p/mavennatives/ -->
-	<repositories>
+
+
+	<!-- 
+    <repositories>
 		<repository>
 			<id>slick</id>
 			<url>http://slick.cokeandcode.com/mavenrepo</url>
 		</repository>
 	</repositories>
+     -->
 
-	<pluginRepositories>
+
+
+	<!-- 
+    <pluginRepositories>
 		<pluginRepository>
 			<snapshots>
 				<enabled>true</enabled>
@@ -27,6 +34,7 @@
 			<url>http://mavennatives.googlecode.com/svn/repo/</url>
 		</pluginRepository>
 	</pluginRepositories>
+     -->
 
 	<dependencies>
 		<dependency>
@@ -35,42 +43,25 @@
 			<version>2.4.0</version>
 		</dependency>
 
-		<!-- locally installed from a downloaded lwjgl 2.5 using: mvn install:install-file 
-			-Dfile=jar/lwjgl.jar -Dsources=lwjgl-source-2.5.zip -DgroupId=lwjgl -DartifactId=lwjgl 
-			-Dversion=2.5.0 -Dpackaging=jar -->
-		<dependency>
-			<groupId>lwjgl</groupId>
-			<artifactId>lwjgl</artifactId>
-			<version>2.5.0</version>
-		</dependency>
-		<!-- locally installed from a downloaded lwjgl 2.5 first a l-lb/lwjgl-2.5.0-natives-linux.jar 
-			is make by "compressing" a portion of the ./native/linux files. then install 
-			to local repo using: mvn install:install-file -Dfile=lib/lwjgl-2.5.0-natives-linux.jar 
-			-DgroupId=lwjgl -DartifactId=lwjgl -Dversion=2.5.0 -Dclassifier=natives-linux 
-			-Dpackaging=jar -->
-		<dependency>
-			<groupId>lwjgl</groupId>
-			<artifactId>lwjgl</artifactId>
-			<version>2.5.0</version>
-			<classifier>natives-linux</classifier>
-		</dependency>
-
-		<!-- locally installed from a downloaded lwjgl 2.5 using: mvn install:install-file 
-			-Dfile=jar/lwjgl_util.jar -Dsources=lwjgl-source-2.5.zip -DgroupId=lwjgl 
-			-DartifactId=lwjgl-util -Dversion=2.5.0 -Dpackaging=jar -->
-
-		<dependency>
-			<groupId>lwjgl</groupId>
-			<artifactId>lwjgl-util</artifactId>
-			<version>2.5.0</version>
-		</dependency>
-
+        <dependency>
+            <groupId>org.lwjgl.lwjgl</groupId>
+            <artifactId>lwjgl</artifactId>
+            <version>2.8.1</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.lwjgl.lwjgl</groupId>
+            <artifactId>lwjgl_util</artifactId>
+            <version>2.8.1</version>
+        </dependency>
+        
 
 		<!-- slick is used to load textures and sound (instead of DevIL) -->
+
 		<dependency>
 			<groupId>slick</groupId>
 			<artifactId>slick</artifactId>
-			<version>274</version>
+			<version>250</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.lwjgl</groupId>
@@ -87,6 +78,7 @@
 
 			</exclusions>
 		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -102,10 +94,11 @@
 			<plugin>
 				<groupId>com.googlecode.mavennatives</groupId>
 				<artifactId>maven-nativedependencies-plugin</artifactId>
-				<version>0.0.2</version>
+				<version>0.0.5</version>
 				<executions>
 					<execution>
 						<id>unpacknatives</id>
+                        <phase>generate-resources</phase>
 						<goals>
 							<goal>copy</goal>
 						</goals>
@@ -155,6 +148,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<mainClass>be.ockerman.roborally.JRoborally</mainClass>
+                            <classpathPrefix>lib/</classpathPrefix>
 						</manifest>
 					</archive>
 				</configuration>

@@ -95,7 +95,6 @@ public class BoardRenderTestAppStage implements AppStage {
 
         GL11.glLoadIdentity();                          // Reset The Current Modelview Matrix
       
-        
         GL11.glPushMatrix(); 
         {
             GL11.glTranslatef(0.0f,0.0f,-20.0f);
@@ -108,6 +107,7 @@ public class BoardRenderTestAppStage implements AppStage {
         }
         GL11.glPopMatrix();
         
+        /*
         GL11.glTranslatef(-1.5f,0.0f,-6.0f);                // Move Left 1.5 Units And Into The Screen 6.0
         GL11.glRotatef(rtri,0.0f,1.0f,0.0f);                // Rotate The Triangle On The Y axis ( NEW )
         GL11.glBegin(GL11.GL_TRIANGLES);                    // Drawing Using Triangles
@@ -136,7 +136,7 @@ public class BoardRenderTestAppStage implements AppStage {
             GL11.glColor3f(0.0f,1.0f,0.0f);             // Green
             GL11.glVertex3f(-1.0f,-1.0f, 1.0f);         // Right Of Triangle (Left)
         GL11.glEnd();
-        
+        */
         rtri+=0.2f;
         
 
